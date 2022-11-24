@@ -34,20 +34,25 @@ if api.project.exists(workspace_id, project_name):
     project_name = api.project.get_free_name(workspace_id, project_name)
 
 class2idx_path = os.path.join(project_path, "class2idx.json")
+
 project_info = api.project.create(workspace_id, project_name, sly.ProjectType.VOLUMES)
+class2idx_found = False
+idx2class = {}
 
 if sly.fs.file_exists(class2idx_path):
     class2idx = sly.json.load_json_file(class2idx_path)
-    obj_classes = [
-        sly.ObjClass(class_name, sly.Bitmap) for class_name in class2idx.keys()
-    ]
-    project_meta = sly.ProjectMeta(obj_classes)
+    idx2class = {
+        idx: sly.ObjClass(class_name, sly.Bitmap)
+        for class_name, idx in class2idx.items()
+    }
+
+    project_meta = sly.ProjectMeta(list(idx2class.values()))
+    class2idx_found = True
 else:
     project_meta = sly.ProjectMeta()
 
 api.project.update_meta(project_info.id, project_meta.to_json())
 
-idx2class = {}
 for ds_name in os.listdir(project_path):
     ds_dir = os.path.join(project_path, ds_name)
     if sly.fs.dir_exists(ds_dir):
@@ -78,7 +83,7 @@ for ds_name in os.listdir(project_path):
                 raise RuntimeError(f"Masks folder for item {item_name} not found.")
             if sly.fs.dir_empty(item_masks_dir):
                 raise RuntimeError(f"Masks folder for item {item_name} is empty.")
-            volume, meta = sly.volume.read_nrrd_serie_volume_np(
+            volume, volume_meta = sly.volume.read_nrrd_serie_volume_np(
                 os.path.join(volumes_dir, item_name)
             )
             ann_figures = {"saggital": {}, "coronal": {}, "axial": {}}
@@ -110,7 +115,10 @@ for ds_name in os.listdir(project_path):
                         if i not in ann_figures["saggital"].keys():
                             ann_figures["saggital"][i] = []
                         figure = sly.VolumeFigure(
-                            volume_object, sly.Bitmap, sly.Plane.SAGITTAL, i
+                            volume_object,
+                            sly.Bitmap(class_object_mask),
+                            sly.Plane.SAGITTAL,
+                            i,
                         )
                         ann_figures["saggital"][i].append(figure)
                     for i in range(volume_mask.shape[1]):  # coronal
@@ -120,7 +128,10 @@ for ds_name in os.listdir(project_path):
                         if i not in ann_figures["coronal"].keys():
                             ann_figures["coronal"][i] = []
                         figure = sly.VolumeFigure(
-                            volume_object, sly.Bitmap, sly.Plane.SAGITTAL, i
+                            volume_object,
+                            sly.Bitmap(class_object_mask),
+                            sly.Plane.SAGITTAL,
+                            i,
                         )
                         ann_figures["coronal"][i].append(figure)
                     for i in range(volume_mask.shape[2]):  # axial
@@ -130,7 +141,10 @@ for ds_name in os.listdir(project_path):
                         if i not in ann_figures["axial"].keys():
                             ann_figures["axial"][i] = []
                         figure = sly.VolumeFigure(
-                            volume_object, sly.Bitmap, sly.Plane.SAGITTAL, i
+                            volume_object,
+                            sly.Bitmap(class_object_mask),
+                            sly.Plane.SAGITTAL,
+                            i,
                         )
                         ann_figures["axial"][i].append(figure)
 
@@ -139,34 +153,34 @@ for ds_name in os.listdir(project_path):
                 for k, v in ann_figures[plane_name].items():
                     frames[plane_name].append(sly.Frame(k, v))
             volume_ann = sly.VolumeAnnotation(
-                meta,
+                volume_meta,
                 sly.VolumeObjectCollection(list(ann_objects.values())),
                 sly.Plane(
                     sly.Plane.SAGITTAL,
-                    (volume_mask.shape[1], volume_mask.shape[2]),
-                    [
-                        len(ann_figures["saggital"])
-                        for v in ann_figures["saggital"].values()
-                    ],
-                    frames["saggital"],
+                    img_size=(volume_mask.shape[1], volume_mask.shape[2]),
+                    slices_count=volume_mask.shape[0],
+                    items=frames["saggital"],
+                    volume_meta=volume_meta,
                 ),
                 sly.Plane(
                     sly.Plane.CORONAL,
-                    (volume_mask.shape[0], volume_mask.shape[2]),
-                    [
-                        len(ann_figures["coronal"])
-                        for v in ann_figures["coronal"].values()
-                    ],
-                    frames["coronal"],
+                    img_size=(volume_mask.shape[0], volume_mask.shape[2]),
+                    slices_count=volume_mask.shape[1],
+                    items=frames["coronal"],
+                    volume_meta=volume_meta,
                 ),
                 sly.Plane(
                     sly.Plane.AXIAL,
-                    (volume_mask.shape[0], volume_mask.shape[1]),
-                    [len(ann_figures["axial"]) for v in ann_figures["axial"].values()],
-                    frames["axial"],
+                    img_size=(volume_mask.shape[0], volume_mask.shape[1]),
+                    slices_count=volume_mask.shape[2],
+                    items=frames["axial"],
+                    volume_meta=volume_meta,
                 ),
             )
             volume_ann.validate_figures_bounds()
+            if not class2idx_found:
+                project_meta = sly.ProjectMeta(list(idx2class.values()))
+                api.project.update_meta(project_info.id, project_meta.to_json())
             api.volume.annotation.append(item_id, volume_ann)
 
 
