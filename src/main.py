@@ -2,6 +2,7 @@ import os
 import numpy as np
 import supervisely as sly
 import src.functions as f
+from distutils.util import strtobool
 from dotenv import load_dotenv
 
 # load ENV variables for debug
@@ -20,7 +21,7 @@ sly.logger.info(
 
 data_dir = sly.app.get_data_dir()
 project_name = os.environ["modal.state.projectName"]
-remove_source = os.environ["modal.state.removeSource"] == "true"  # TODO: FIX
+remove_source = bool(strtobool(os.getenv("modal.state.removeSource")))
 remote_path = os.environ["FOLDER"]
 is_on_agent = api.file.is_on_agent(remote_path)
 
