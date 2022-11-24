@@ -14,8 +14,6 @@ team_id = sly.env.team_id()
 workspace_id = sly.env.workspace_id()
 task_id = sly.env.task_id()
 
-app = sly.Application()
-
 sly.logger.info(
     "Script arguments", extra={"TEAM_ID": team_id, "WORKSPACE_ID": workspace_id}
 )
@@ -125,7 +123,7 @@ for ds_name in os.listdir(project_path):
                 unique_values = np.unique(volume_mask).tolist()
                 for val in unique_values:
                     if val not in idx2class and val != 0:
-                        idx2class[val] = sly.ObjClass(f"class{val}", sly.Bitmap)
+                        idx2class[val] = sly.ObjClass(f"class{int(val)}", sly.Bitmap)
                 mask_objects = {
                     val: sly.VolumeObject(idx2class[val])
                     for val in unique_values
@@ -221,6 +219,11 @@ for ds_name in os.listdir(project_path):
                 raise e
             sly.logger.info(f"Volume {item_name} has been uploaded successfully.")
 
-api.app.set_output_project(task_id, project_info.id, project_name)
+if remove_source and not is_on_agent:
+    api.file.remove(team_id=team_id, path=remote_path)
+    remote_folder_name = os.path.basename(os.path.normpath(remote_path))
+    sly.logger.info(
+        msg=f"Source directory: '{remote_folder_name}' was successfully removed."
+    )
 
-app.shutdown()
+api.app.set_output_project(task_id, project_info.id, project_name)
