@@ -1,0 +1,4 @@
+black==22.6.0
+supervisely==6.68.28
+SimpleITK==2.2.0
+python-magic==0.4.27

@@ -1,0 +1,15 @@
+<div>
+
+    <sly-field title="Result Project Name"
+        description="Enter project name manually (optional) or keep empty to generate it automatically">
+    </sly-field>
+    <el-input placeholder="Enter Project Name" v-model="state.projectName"></el-input>
+
+    <div class="fflex align-start">
+        <el-checkbox v-model="state.removeSource" class="mt10 mr10"></el-checkbox>
+        <sly-field class="mt20" title="Remove temporary files after successful import"
+            description="Removes source directory from Team Files after successful import">
+        </sly-field>
+    </div>
+
+</div>

@@ -1,0 +1,25 @@
+{
+    "name": "Project 3D statistics",
+    "version": "2.0.0",
+    "headless": true,
+    "description": "Import Videos without annotations to Supervisely",
+    "categories": [
+        "import",
+        "volumes"
+    ],
+    "modal_template": "src/modal.html",
+    "modal_template_state": {
+        "removeSource": true,
+        "projectName": "New volumes project"
+    },
+    "icon": "",
+    "poster": "",
+    "context_menu": {
+        "context_category": "Import",
+        "target": ["files_folder", "agent_folder"]
+    },
+    "min_agent_version": "6.6.7",
+    "min_instance_version": "6.5.38",
+    "entrypoint": "python -m uvicorn src.main:app --host 0.0.0.0 --port 8000",
+    "port": 8000
+  }
