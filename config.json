@@ -1,5 +1,5 @@
 {
-    "name": "Project 3D statistics",
+    "name": "Import Volumes with Masks",
     "version": "2.0.0",
     "headless": true,
     "description": "Import Videos without annotations to Supervisely",
