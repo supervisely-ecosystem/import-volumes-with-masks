@@ -18,5 +18,5 @@
         "context_category": "Import",
         "target": ["files_folder", "agent_folder"]
     },
-    "entrypoint": "python src.main.py"
+    "entrypoint": "python src/main.py"
   }
