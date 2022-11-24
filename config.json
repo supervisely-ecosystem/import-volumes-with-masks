@@ -12,8 +12,8 @@
         "removeSource": true,
         "projectName": "New volumes project"
     },
-    "icon": "",
-    "poster": "",
+    "icon": "https://user-images.githubusercontent.com/97401023/203816888-c5b4d710-7729-40bf-9043-322941b5a214.png",
+    "poster": "https://user-images.githubusercontent.com/97401023/203817046-018b4b41-e69a-4c1f-8b99-6c7f69a6a7d4.png",
     "context_menu": {
         "context_category": "Import",
         "target": ["files_folder", "agent_folder"]
