@@ -2,7 +2,7 @@
     "name": "Import Volumes with Masks",
     "version": "2.0.0",
     "headless": true,
-    "description": "Import Volumes without annotations to Supervisely",
+    "description": "Import Volumes with .nrrd masks to Supervisely",
     "categories": [
         "import",
         "volumes"
