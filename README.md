@@ -34,10 +34,10 @@ App can be launched from ecosystem, team files and from agent.
 <img src="https://user-images.githubusercontent.com/97401023/203985563-e1fca937-5cda-4af2-83a1-435238108d3c.png" />
 
 2. If you want to upload project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to drag-and-drop field or you can click on the drag-and-drop field and choose project from your computer in opened window. 
-<img src="https://user-images.githubusercontent.com/97401023/203985668-9d5fb085-235b-4e4e-903f-54e110a6dd08.png" />
+<img src="https://user-images.githubusercontent.com/97401023/203985668-9d5fb085-235b-4e4e-903f-54e110a6dd08.png" width="400px" />
 
 3. If you want to use project from Team Files, choose `Team Files` option and choose folder to use in the app. 
-<img src="https://user-images.githubusercontent.com/97401023/203985717-a54a6867-d903-4be0-a160-975e633eb9f8.png" />
+<img src="https://user-images.githubusercontent.com/97401023/203985717-a54a6867-d903-4be0-a160-975e633eb9f8.png" width="400px" />
 
 4. Enter project name to `Result Project Name` field or leave the default value.
 5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
@@ -52,10 +52,10 @@ App can be launched from ecosystem, team files and from agent.
 <img src="https://user-images.githubusercontent.com/97401023/203985820-e657e722-9d8f-46a5-a596-c64051ff7c64.png" />
 
 2. If you want to upload project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to drag-and-drop field or you can click on the drag-and-drop field and choose project from your computer in opened window. 
-<img src="https://user-images.githubusercontent.com/97401023/203985668-9d5fb085-235b-4e4e-903f-54e110a6dd08.png" />
+<img src="https://user-images.githubusercontent.com/97401023/203985668-9d5fb085-235b-4e4e-903f-54e110a6dd08.png" width="400px" />
 
 3. If you want to use project from Team Files, choose `Team Files` option and choose folder to use in the app. 
-<img src="https://user-images.githubusercontent.com/97401023/203985717-a54a6867-d903-4be0-a160-975e633eb9f8.png" />
+<img src="https://user-images.githubusercontent.com/97401023/203985717-a54a6867-d903-4be0-a160-975e633eb9f8.png" width="400px" />
 
 4. Enter project name to `Result Project Name` field or leave the default value.
 5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
