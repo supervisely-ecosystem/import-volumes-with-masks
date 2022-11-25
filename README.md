@@ -7,7 +7,8 @@
 <p align="center">
   <a href="#Overview">Overview</a> •
   <a href="#How-to-Run">How to Run</a> •
-  <a href="#Input-Data-Structure">Input Data Structure</a>
+  <a href="#Input-Data-Structure">Input Data Structure</a> •
+  <a href="#Demo">Demo</a>
 </p>
 
 [![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](https://ecosystem.supervise.ly/apps/supervisely-ecosystem/import-volumes-with-masks)
@@ -24,12 +25,48 @@ Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmen
 
 # How to Run
 
+App can be launched from ecosystem, team files and from agent.
+
+<details open>
+<summary>Run from ecosystem</summary>
+<br>
+1. Click `Run application...` button on the right side of the app page. Modal window will be opened.
+<img />
+2. If you want to upload project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to drag-and-drop field or you can click on the drag-and-drop field and choose project from your computer in opened window. 
+<img />
+3. If you want to use project from Team Files, choose `Team Files` option and choose folder to use in the app. 
+<img />
+4. Enter project name to `Result Project Name` field or leave the default value.
+5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
+6. Also you can set `Advanced parameters` such as agent, app version and other.
+7. Click `Run` button to start app.
+</details>
+
+<details>
+<summary>Run from team files</summary>
+<br>
+1. Run the application from the context menu of the folder on Team Files page
+<img />
+2. If you want to upload project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to drag-and-drop field or you can click on the drag-and-drop field and choose project from your computer in opened window. 
+<img />
+3. If you want to use project from Team Files, choose `Team Files` option and choose folder to use in the app. 
+<img />
+4. Enter project name to `Result Project Name` field or leave the default value.
+5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
+6. Also you can set `Advanced parameters` such as agent, app version and other.
+7. Click `Run` button to start app.
+</details>
+
+<details>
+<summary>Run from agent</summary>
+<br>
 Application supports import from special directory on your local computer. It is made for Enterprise Edition customers who need to upload tens or even hundreds of gigabytes of data without using drag-ang-drop mechanism:
 
 1. Run agent on your computer where data is stored. Watch [how-to video](https://youtu.be/aO7Zc4kTrVg).
 2. Copy your data to special folder on your computer that was created by agent. Agent mounts this directory to your Supervisely instance and it becomes accessible in Team Files. Learn more [in documentation](https://github.com/supervisely/docs/blob/master/customization/agents/agent-storage/agent-storage.md). Watch [how-to video](https://youtu.be/63Kc8Xq9H0U).
 3. Go to `Team Files` -> `Supervisely Agent` and find your folder there.
 4. Right click to open context menu and start app. Now app will upload data directly from your computer to the platform.
+</details>
 
 # Input Data Structure
 
@@ -46,20 +83,20 @@ my_volumes_project
 │   │   ├── volume_2.nrrd
 │   │   └── ...
 │   └── masks
-│       ├── volume_1.nrrd
+│       ├── volume_1.nrrd (directory)
 │       │   ├── mask_1.nrrd
 │       │   ├── mask_2.nrrd
 │       │   └── ...
-│       ├── volume_2.nrrd
+│       ├── volume_2.nrrd (directory)
 │       │   ├── mask_1.nrrd
 │       │   └── ...
 │       └── ...    
 ├── <DATASET_NAME_1>
 │   ├── volumes
-│   │   ├── volume_1.nrrd
+│   │   ├── volume_1.nrrd (directory)
 │   │   └── ...
 │   └── masks
-│       ├── volume_1.nrrd
+│       ├── volume_1.nrrd (directory)
 │       │   ├── mask_1.nrrd
 │       │   └── ...
 │       └── ...    
@@ -69,6 +106,8 @@ my_volumes_project
 where indexes is values from `.nrrd` masks. Don't specify 0 as index in this file (reserved value for not labeled fields).
 If you don't provide this file, class names will be created automatically (`class1`, `class2`, ...).
 
+Mask files of each volume can contain one or more objects.
+
 `class2idx.json` example:
 ```
 {
@@ -77,3 +116,18 @@ If you don't provide this file, class names will be created automatically (`clas
 }
 ```
 
+# Demo
+
+[Download demo project (... Mb)]()
+
+Demp project contains 1 dataset `ds0` with 2 volumes.
+First volume has 1 mask `.nrrd` file with 1 `brain` object.
+Mask file of second volume contain 2 `lung` objects.
+
+After uploading this project should look like:
+
+1. Volume with `brain` object
+<img>
+
+1. Volume with two `lung` objects.
+<img>
