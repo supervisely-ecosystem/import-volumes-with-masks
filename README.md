@@ -141,5 +141,5 @@ After uploading this project should look like:
 1. Volume with `brain` object
 <img />
 
-1. Volume with two `lung` objects.
+2. Volume with two `lung` objects.
 <img />
