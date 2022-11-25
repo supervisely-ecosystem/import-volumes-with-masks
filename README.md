@@ -41,7 +41,7 @@ App can be launched from ecosystem, team files and from agent.
 
 4. Enter project name to `Result Project Name` field or leave the default value.
 5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
-6. Also you can set `Advanced parameters` such as agent, app version and other.
+6. Also you can set `Advanced settings` such as agent, app version and other.
 7. Click `Run` button to start app.
 </details>
 
@@ -59,7 +59,7 @@ App can be launched from ecosystem, team files and from agent.
 
 4. Enter project name to `Result Project Name` field or leave the default value.
 5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
-6. Also you can set `Advanced parameters` such as agent, app version and other.
+6. Also you can set `Advanced settings` such as agent, app version and other.
 7. Click `Run` button to start app.
 </details>
 
