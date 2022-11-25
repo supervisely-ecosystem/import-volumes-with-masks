@@ -30,7 +30,7 @@ App can be launched from ecosystem, team files and from agent.
 <details open>
 <summary>Run from ecosystem</summary>
 <br>
-1. Click `Run application...` button on the right side of the app page. Modal window will be opened.
+1. Click `Run application` button on the right side of the app page. Modal window will be opened.
 <img src="https://user-images.githubusercontent.com/97401023/203985563-e1fca937-5cda-4af2-83a1-435238108d3c.png" />
 
 2. If you want to upload project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to drag-and-drop field or you can click on the drag-and-drop field and choose project from your computer in opened window. 
