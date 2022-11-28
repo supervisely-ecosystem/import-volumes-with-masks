@@ -115,8 +115,6 @@ for ds_name in os.listdir(project_path):
             ann_objects = {}
             masks_filenames = sorted(os.listdir(item_masks_dir))
             for mask_filename in masks_filenames:
-                if mask_filename == ".DS_Store":  # TODO: remove
-                    continue
                 if not sly.volume.has_valid_ext(mask_filename):
                     continue
                 mask_path = os.path.join(item_masks_dir, mask_filename)
