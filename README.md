@@ -122,16 +122,19 @@ Mask files of each volume can contain one or more objects.
 
 # Demo
 
-[Download demo project (... Mb)]()
+[Download demo project (71.7 Mb)](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v0.0.5/Volumes.with.Masks.example.zip)
 
 Demp project contains 1 dataset `ds0` with 2 volumes.
 First volume has 1 mask `.nrrd` file with 1 `brain` object.
-Mask file of second volume contain 2 `lung` objects.
+Second volume has 2 masks `.nrrd` where each file contains with 1 `lung` object.
 
 After uploading this project should look like:
 
 1. Volume with `brain` object
-<img />
+
+<img src="https://user-images.githubusercontent.com/97401023/204329005-4e42031a-576f-4df8-8c1f-8059d55b13b8.png">
+
 
 2. Volume with two `lung` objects.
-<img />
+
+<img src="https://user-images.githubusercontent.com/97401023/204329099-3ea5c9cd-62d8-4454-bd23-0309e009c2b1.png">
