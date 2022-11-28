@@ -130,8 +130,8 @@ for ds_name in os.listdir(project_path):
                 }
                 for idx, volume_object in mask_objects.items():
 
-                    if idx not in ann_objects.keys():
-                        ann_objects[idx] = volume_object
+                    if volume_object.key() not in ann_objects.keys():
+                        ann_objects[volume_object.key()] = volume_object
                     for i in range(volume_mask.shape[0]):  # saggital
                         class_object_mask = volume_mask[i, :, :] == idx
                         if not np.any(class_object_mask):
