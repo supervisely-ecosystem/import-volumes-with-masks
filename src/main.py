@@ -63,6 +63,7 @@ else:
     project_meta = sly.ProjectMeta()
 
 api.project.update_meta(project_info.id, project_meta.to_json())
+planes = [sly.Plane.SAGITTAL, sly.Plane.CORONAL, sly.Plane.AXIAL]
 
 for ds_name in os.listdir(project_path):
     ds_dir = os.path.join(project_path, ds_name)
@@ -102,6 +103,10 @@ for ds_name in os.listdir(project_path):
             )
             raise e
         item_names2ids = {item_info.name: item_info.id for item_info in item_infos}
+        anns_progress = sly.Progress(
+            f"Uploading volume annotations to {dataset.name} dataset",
+            len(item_names2ids),
+        )
         for item_name, item_id in item_names2ids.items():
             item_masks_dir = os.path.join(masks_dir, item_name)
             if not sly.fs.dir_exists(item_masks_dir):
@@ -111,7 +116,7 @@ for ds_name in os.listdir(project_path):
             volume, volume_meta = sly.volume.read_nrrd_serie_volume_np(
                 os.path.join(volumes_dir, item_name)
             )
-            ann_figures = {"saggital": {}, "coronal": {}, "axial": {}}
+            ann_figures = {plane_name: {} for plane_name in planes}
             ann_objects = {}
             masks_filenames = sorted(os.listdir(item_masks_dir))
             for mask_filename in masks_filenames:
@@ -128,72 +133,38 @@ for ds_name in os.listdir(project_path):
                     for val in unique_values
                     if val != 0
                 }
-                for idx, volume_object in mask_objects.items():
+                for (
+                    class_idx,
+                    volume_object,
+                ) in mask_objects.items():  # objects of different classes
 
                     if volume_object.key() not in ann_objects.keys():
                         ann_objects[volume_object.key()] = volume_object
-                    for i in range(volume_mask.shape[0]):  # saggital
-                        class_object_mask = volume_mask[i, :, :] == idx
-                        if not np.any(class_object_mask):
-                            continue
-                        if i not in ann_figures["saggital"].keys():
-                            ann_figures["saggital"][i] = []
-                        figure = sly.VolumeFigure(
-                            volume_object,
-                            sly.Bitmap(class_object_mask.T),
-                            sly.Plane.SAGITTAL,
-                            i,
-                        )
-                        ann_figures["saggital"][i].append(figure)
-                    for i in range(volume_mask.shape[1]):  # coronal
-                        class_object_mask = volume_mask[:, i, :] == idx
-                        if not np.any(class_object_mask):
-                            continue
-                        if i not in ann_figures["coronal"].keys():
-                            ann_figures["coronal"][i] = []
-                        figure = sly.VolumeFigure(
-                            volume_object,
-                            sly.Bitmap(class_object_mask.T),
-                            sly.Plane.CORONAL,
-                            i,
-                        )
-                        ann_figures["coronal"][i].append(figure)
-                    for i in range(volume_mask.shape[2]):  # axial
-                        class_object_mask = volume_mask[:, :, i] == idx
-                        if not np.any(class_object_mask):
-                            continue
-                        if i not in ann_figures["axial"].keys():
-                            ann_figures["axial"][i] = []
-                        figure = sly.VolumeFigure(
-                            volume_object,
-                            sly.Bitmap(class_object_mask.T),
-                            sly.Plane.AXIAL,
-                            i,
-                        )
-                        ann_figures["axial"][i].append(figure)
 
-            frames = {"saggital": [], "coronal": [], "axial": []}
-            for plane_name in ["saggital", "coronal", "axial"]:
-                for k, v in ann_figures[plane_name].items():
-                    frames[plane_name].append(sly.Slice(k, v))
+                    for plane_idx, _ in enumerate(
+                        planes
+                    ):  # create figures for all 3 planes
+                        f.create_plane_figures(
+                            volume_mask,
+                            ann_figures,
+                            class_idx,
+                            volume_object,
+                            plane_idx,
+                        )
+
+            frames = {plane_name: [] for plane_name in planes}
+            for plane_name in planes:
+                for slice_idx, slice_figures in ann_figures[plane_name].items():
+                    frames[plane_name].append(sly.Slice(slice_idx, slice_figures))
             volume_ann = sly.VolumeAnnotation(
                 volume_meta,
                 sly.VolumeObjectCollection(list(ann_objects.values())),
-                sly.Plane(
-                    sly.Plane.SAGITTAL,
-                    items=frames["saggital"],
-                    volume_meta=volume_meta,
-                ),
-                sly.Plane(
-                    sly.Plane.CORONAL,
-                    items=frames["coronal"],
-                    volume_meta=volume_meta,
-                ),
-                sly.Plane(
-                    sly.Plane.AXIAL,
-                    items=frames["axial"],
-                    volume_meta=volume_meta,
-                ),
+                *[
+                    sly.Plane(
+                        plane_name, items=frames[plane_name], volume_meta=volume_meta
+                    )
+                    for plane_name in planes
+                ],
             )
             volume_ann.validate_figures_bounds()
             if not class2idx_found:
@@ -216,6 +187,7 @@ for ds_name in os.listdir(project_path):
                     },
                 )
                 raise e
+            anns_progress.iter_done_report()
             sly.logger.info(f"Volume {item_name} has been uploaded successfully.")
 
 if remove_source and not is_on_agent:
