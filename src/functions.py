@@ -8,7 +8,7 @@ def download_folder_from_team_files(
     api: sly.Api, remote_path: str, team_id: int, is_on_agent: bool, save_path: str
 ) -> str:
     if is_on_agent:
-        agent_id, cur_files_path = api.file.parse_agent_id_and_path(remote_path)
+        _, cur_files_path = api.file.parse_agent_id_and_path(remote_path)
     else:
         cur_files_path = remote_path
     project_folder = os.path.basename(os.path.normpath(cur_files_path))
