@@ -7,8 +7,10 @@ from dotenv import load_dotenv
 
 # load ENV variables for debug
 # has no effect in production
-load_dotenv("local.env")
-load_dotenv(os.path.expanduser("~/supervisely.env"))
+if sly.is_development():
+    load_dotenv("local.env")
+    load_dotenv(os.path.expanduser("~/supervisely.env"))
+    sly.fs.clean_dir(os.environ["SLY_APP_DATA_DIR"])
 
 api = sly.Api.from_env()
 team_id = sly.env.team_id()
@@ -22,7 +24,7 @@ sly.logger.info(
 data_dir = sly.app.get_data_dir()
 project_name = os.environ["modal.state.projectName"]
 remove_source = bool(strtobool(os.getenv("modal.state.removeSource")))
-remote_path = os.environ["FOLDER"]
+remote_path = os.environ["TEAM_FILES_FOLDER"]
 is_on_agent = api.file.is_on_agent(remote_path)
 
 try:
@@ -69,14 +71,14 @@ for ds_name in os.listdir(project_path):
     ds_dir = os.path.join(project_path, ds_name)
     if sly.fs.dir_exists(ds_dir):
         dataset = api.dataset.create(project_info.id, ds_name)
-        volumes_dir = os.path.join(ds_dir, "volumes")
-        masks_dir = os.path.join(ds_dir, "masks")
+        volumes_dir = os.path.join(ds_dir, "volume")
+        masks_dir = os.path.join(ds_dir, "mask")
         if not sly.fs.dir_exists(volumes_dir):
             raise NotADirectoryError(
-                f"'volumes' folder not found in dataset '{ds_name}'"
+                f"'volume' folder not found in dataset '{ds_name}'"
             )
         if not sly.fs.dir_exists(masks_dir):
-            raise NotADirectoryError(f"'masks' folder not found in dataset '{ds_name}'")
+            raise NotADirectoryError(f"'mask' folder not found in dataset '{ds_name}'")
         volumes_names = [
             file for file in os.listdir(volumes_dir) if sly.volume.has_valid_ext(file)
         ]
@@ -110,15 +112,20 @@ for ds_name in os.listdir(project_path):
         for item_name, item_id in item_names2ids.items():
             item_masks_dir = os.path.join(masks_dir, item_name)
             if not sly.fs.dir_exists(item_masks_dir):
-                raise RuntimeError(f"Masks folder for item {item_name} not found.")
+                raise RuntimeError(f"Mask folder for item {item_name} not found.")
             if sly.fs.dir_empty(item_masks_dir):
-                raise RuntimeError(f"Masks folder for item {item_name} is empty.")
+                raise RuntimeError(f"Mask folder for item {item_name} is empty.")
             volume, volume_meta = sly.volume.read_nrrd_serie_volume_np(
                 os.path.join(volumes_dir, item_name)
             )
             ann_figures = {plane_name: {} for plane_name in planes}
             ann_objects = {}
             masks_filenames = sorted(os.listdir(item_masks_dir))
+
+            # for backward compatibility with  the export app
+            while "human-readable-objects" in masks_filenames:
+                masks_filenames.remove("human-readable-objects")
+
             for mask_filename in masks_filenames:
                 if not sly.volume.has_valid_ext(mask_filename):
                     continue
@@ -137,7 +144,6 @@ for ds_name in os.listdir(project_path):
                     class_idx,
                     volume_object,
                 ) in mask_objects.items():  # objects of different classes
-
                     if volume_object.key() not in ann_objects.keys():
                         ann_objects[volume_object.key()] = volume_object
 
