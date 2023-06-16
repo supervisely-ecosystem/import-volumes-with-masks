@@ -17,9 +17,7 @@ team_id = sly.env.team_id()
 workspace_id = sly.env.workspace_id()
 task_id = sly.env.task_id()
 
-sly.logger.info(
-    "Script arguments", extra={"TEAM_ID": team_id, "WORKSPACE_ID": workspace_id}
-)
+sly.logger.info("Script arguments", extra={"TEAM_ID": team_id, "WORKSPACE_ID": workspace_id})
 
 data_dir = sly.app.get_data_dir()
 project_name = os.environ["modal.state.projectName"]
@@ -54,10 +52,7 @@ idx2class = {}
 
 if sly.fs.file_exists(class2idx_path):
     class2idx = sly.json.load_json_file(class2idx_path)
-    idx2class = {
-        idx: sly.ObjClass(class_name, sly.Bitmap)
-        for class_name, idx in class2idx.items()
-    }
+    idx2class = {idx: sly.ObjClass(class_name, sly.Bitmap) for class_name, idx in class2idx.items()}
 
     project_meta = sly.ProjectMeta(list(idx2class.values()))
     class2idx_found = True
@@ -74,14 +69,10 @@ for ds_name in os.listdir(project_path):
         volumes_dir = os.path.join(ds_dir, "volume")
         masks_dir = os.path.join(ds_dir, "mask")
         if not sly.fs.dir_exists(volumes_dir):
-            raise NotADirectoryError(
-                f"'volume' folder not found in dataset '{ds_name}'"
-            )
+            raise NotADirectoryError(f"'volume' folder not found in dataset '{ds_name}'")
         if not sly.fs.dir_exists(masks_dir):
             raise NotADirectoryError(f"'mask' folder not found in dataset '{ds_name}'")
-        volumes_names = [
-            file for file in os.listdir(volumes_dir) if sly.volume.has_valid_ext(file)
-        ]
+        volumes_names = [file for file in os.listdir(volumes_dir) if sly.volume.has_valid_ext(file)]
         volumes_paths = [os.path.join(volumes_dir, volume) for volume in volumes_names]
         volumes_progress = sly.Progress(
             f"Uploading volumes to {dataset.name} dataset", len(volumes_names)
@@ -136,9 +127,7 @@ for ds_name in os.listdir(project_path):
                     if val not in idx2class and val != 0:
                         idx2class[val] = sly.ObjClass(f"class{int(val)}", sly.Bitmap)
                 mask_objects = {
-                    val: sly.VolumeObject(idx2class[val])
-                    for val in unique_values
-                    if val != 0
+                    val: sly.VolumeObject(idx2class[val]) for val in unique_values if val != 0
                 }
                 for (
                     class_idx,
@@ -147,9 +136,7 @@ for ds_name in os.listdir(project_path):
                     if volume_object.key() not in ann_objects.keys():
                         ann_objects[volume_object.key()] = volume_object
 
-                    for plane_idx, _ in enumerate(
-                        planes
-                    ):  # create figures for all 3 planes
+                    for plane_idx, _ in enumerate(planes):  # create figures for all 3 planes
                         f.create_plane_figures(
                             volume_mask,
                             ann_figures,
@@ -166,9 +153,7 @@ for ds_name in os.listdir(project_path):
                 volume_meta,
                 sly.VolumeObjectCollection(list(ann_objects.values())),
                 *[
-                    sly.Plane(
-                        plane_name, items=frames[plane_name], volume_meta=volume_meta
-                    )
+                    sly.Plane(plane_name, items=frames[plane_name], volume_meta=volume_meta)
                     for plane_name in planes
                 ],
             )
@@ -199,8 +184,8 @@ for ds_name in os.listdir(project_path):
 if remove_source and not is_on_agent:
     api.file.remove(team_id=team_id, path=remote_path)
     remote_folder_name = os.path.basename(os.path.normpath(remote_path))
-    sly.logger.info(
-        msg=f"Source directory: '{remote_folder_name}' was successfully removed."
-    )
+    sly.logger.info(msg=f"Source directory: '{remote_folder_name}' was successfully removed.")
+
+sly.logger.info(msg=f"Project '{project_info.name}' uploaded succesfully.")
 
 api.app.set_output_project(task_id, project_info.id, project_name)
