@@ -108,7 +108,7 @@ Project directory example:
 │       └──📂...    
 └──📂...
 ```
-`class2idx.json` is an optional JSON file containing dictionary `{ "class_name" (str) : index (int) }`
+`class2idx.json` is an optional JSON file containing dictionary `{ "class_name" (str): index (int) }`
 where indexes are values from `.nrrd` masks. Don't specify 0 as an index in this file (reserved value for not labeled fields).
 If you don't provide this file, class names will be created automatically (`class1`, `class2`, ...).
 
