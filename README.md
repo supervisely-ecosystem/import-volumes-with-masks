@@ -25,89 +25,91 @@ Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmen
 
 # How to Run
 
-App can be launched from ecosystem, team files and from agent.
+The App can be launched from the ecosystem, team files or agent.
 
 <details>
 <summary open>Run from team files</summary>
 <br>
-1. Run the application from the context menu of the folder (right mouse button) on Team Files page
+1. Run the application from the context menu of the folder (right mouse button) on the Team Files page
   
 <img src="https://user-images.githubusercontent.com/97401023/203985820-e657e722-9d8f-46a5-a596-c64051ff7c64.png" />
 
-2. Enter project name to `Result Project Name` field or leave the default value.
-3. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
-4. Also you can set `Advanced settings` such as agent, app version and other.
-5. Click `Run` button to start app.
+1. Fill in the project name `Result Project Name` into the field or leave the default value.
+2. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
+3. Also, you can set `Advanced settings` such as agent, app version and others.
+4. Click the `Run` button to start the App.
 </details>
 
 <details>
 <summary>Run from ecosystem</summary>
 <br>
-1. Click `Run application` button on the right side of the app page. Modal window will be opened.
+
+1. Click the `Run application` button on the right side of the App page. A modal window will be opened.
   
 <img src="https://user-images.githubusercontent.com/97401023/203985563-e1fca937-5cda-4af2-83a1-435238108d3c.png" />
 
-2. If you want to upload project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to drag-and-drop field or you can click on the drag-and-drop field and choose project from your computer in opened window. 
+2. If you want to upload a project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to the drag-and-drop field or you can click on the drag-and-drop field and choose the project from your computer in the opened window. 
   
 <img src="https://user-images.githubusercontent.com/97401023/203985668-9d5fb085-235b-4e4e-903f-54e110a6dd08.png" width="400px" />
 
-3. If you want to use project from Team Files, choose `Team Files` option and choose folder to use in the app. 
+3. If you want to use a project from Team Files, choose the `Team Files` option and choose a folder to use in the app. 
   
 <img src="https://user-images.githubusercontent.com/97401023/203985717-a54a6867-d903-4be0-a160-975e633eb9f8.png" width="400px" />
 
-4. Enter project name to `Result Project Name` field or leave the default value.
+4. Fill in the project name in the `Result Project Name` field or leave the default value.
 5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
-6. Also you can set `Advanced settings` such as agent, app version and other.
-7. Click `Run` button to start app.
+6. Also, you can set `Advanced settings` such as agent, app version and others.
+7. Click the `Run` button to start the App.
 </details>
 
 <details>
 <summary>Run from agent</summary>
 <br>
-Application supports import from special directory on your local computer. It is made for Enterprise Edition customers who need to upload tens or even hundreds of gigabytes of data without using drag-ang-drop mechanism:
 
-1. Run agent on your computer where data is stored. Watch [how-to video](https://youtu.be/aO7Zc4kTrVg).
-2. Copy your data to special folder on your computer that was created by agent. Agent mounts this directory to your Supervisely instance and it becomes accessible in Team Files. Learn more [in documentation](https://github.com/supervisely/docs/blob/master/customization/agents/agent-storage/agent-storage.md). Watch [how-to video](https://youtu.be/63Kc8Xq9H0U).
+The application supports import from a special directory on your local computer. It is made for Enterprise Edition customers who need to upload tens or even hundreds of gigabytes of data without using the drag-and-drop mechanism:
+
+1. Run an agent on your computer where data is stored. Watch the [how-to video](https://youtu.be/aO7Zc4kTrVg).
+2. Copy your data to the special folder on your computer that was created by the agent. Agent mounts this directory to your Supervisely instance and it becomes accessible in Team Files. Learn more in the [documentation](https://github.com/supervisely/docs/blob/master/customization/agents/agent-storage/agent-storage.md). Watch the [how-to video](https://youtu.be/63Kc8Xq9H0U).
 3. Go to `Team Files` -> `Supervisely Agent` and find your folder there.
-4. Right click to open context menu and start app. Now app will upload data directly from your computer to the platform.
+4. Right-click to open the context menu and start the App. Now the App will upload data directly from your computer to the platform.
 </details>
 
 # Input Data Structure
 
-Project name will not be taken from the root folder name. You should specify project name in modal window when you run the app.
+The Project name will not be taken from the root folder name. You should specify the project name in the modal window when you run the App.
 
 Project directory example:
 
 ```
-my_volumes_project
-├── class2idx.json (optional)
-├── <DATASET_NAME_0>
-│   ├── volumes
-│   │   ├── volume_1.nrrd
-│   │   ├── volume_2.nrrd
-│   │   └── ...
-│   └── masks
-│       ├── volume_1.nrrd (directory)
-│       │   ├── mask_1.nrrd
-│       │   ├── mask_2.nrrd
-│       │   └── ...
-│       ├── volume_2.nrrd (directory)
-│       │   ├── mask_1.nrrd
-│       │   └── ...
+📂my_volumes_project
+├──📜class2idx.json (optional)
+├──📂dataset_01
+│   ├──📂volume
+│   │   ├──📜volume_1.nrrd
+│   │   ├──📜volume_2.nrrd
+│   │   └──📜...
+│   └──📂mask
+│       ├──📂volume_1.nrrd
+│       │   ├──📜mask_1.nrrd
+│       │   ├──📜mask_2.nrrd
+│       │   └──📜...
+│       ├──📂volume_2.nrrd
+│       │   ├──📜mask_1.nrrd
+│       │   └──📜...
 │       └── ...    
-├── <DATASET_NAME_1>
-│   ├── volumes
-│   │   ├── volume_1.nrrd (directory)
-│   │   └── ...
-│   └── masks
-│       ├── volume_1.nrrd (directory)
-│       │   ├── mask_1.nrrd
-│       │   └── ...
-│       └── ...    
-└── ...
+├──📂dataset_02
+│   ├──📂volume
+│   │   ├──📜volume_1.nrrd
+│   │   └──📜...
+│   └──📂mask
+│       ├──📂volume_1.nrrd
+│       │   ├──📜mask_1.nrrd
+│       │   └──📜...
+│       └──📂...    
+└──📂...
 ```
-`class2idx.json` is optional json file containing dictionary `{ "class_name" (str) : index (int) }`
-where indexes is values from `.nrrd` masks. Don't specify 0 as index in this file (reserved value for not labeled fields).
+`class2idx.json` is an optional JSON file containing dictionary `{ "class_name" (str) : index (int) }`
+where indexes are values from `.nrrd` masks. Don't specify 0 as an index in this file (reserved value for not labeled fields).
 If you don't provide this file, class names will be created automatically (`class1`, `class2`, ...).
 
 Mask files of each volume can contain one or more objects.
@@ -125,10 +127,10 @@ Mask files of each volume can contain one or more objects.
 [Download demo project (71.7 Mb)](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v0.0.5/Volumes.with.Masks.example.zip)
 
 Demp project contains 1 dataset `ds0` with 2 volumes.
-First volume has 1 mask `.nrrd` file with 1 `brain` object.
-Second volume has 2 masks `.nrrd` where each file contains with 1 `lung` object.
+The first volume has 1 mask `.nrrd` file with 1 `brain` object.
+The second volume has 2 masks `.nrrd` where each file contains 1 `lung` object.
 
-After uploading this project should look like:
+After uploading this project should look like this:
 
 1. Volume with `brain` object
 
