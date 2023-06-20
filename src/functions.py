@@ -16,13 +16,13 @@ def download_folder_from_team_files(
     if sly.fs.dir_exists(project_path):
         return project_path
     sizeb = api.file.get_directory_size(team_id, remote_path)
-    progress = sly.Progress(f"Downloading {project_folder}", sizeb, is_size=True)
+    progress = sly.tqdm_sly(desc=f"Downloading {project_folder}", total=sizeb, unit_scale=True)
 
     api.file.download_directory(
         team_id=team_id,
         remote_path=remote_path,
         local_save_path=project_path,
-        progress_cb=progress.iters_done_report,
+        progress_cb=progress,
     )
     return project_path
 
