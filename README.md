@@ -25,19 +25,21 @@ Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmen
 
 # How to Run
 
-The App can be launched from the ecosystem, team files or agent.
+The App can be launched from the ecosystem, team files, or agent.
 
 <details>
 <summary open>Run from team files</summary>
 <br>
+
 1. Run the application from the context menu of the folder (right mouse button) on the Team Files page
   
-<img src="https://user-images.githubusercontent.com/97401023/203985820-e657e722-9d8f-46a5-a596-c64051ff7c64.png" />
+   <img width="800" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/fc5f101e-9732-4958-9bb6-2a305241a290">
 
-1. Fill in the project name `Result Project Name` into the field or leave the default value.
-2. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
-3. Also, you can set `Advanced settings` such as agent, app version and others.
-4. Click the `Run` button to start the App.
+
+2. Fill in the project name `Result Project Name` into the field or leave the default value.
+3. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
+4. Also, you can set `Advanced settings` such as agent, app version, and others.
+5. Click the `Run` button to start the App.
 </details>
 
 <details>
@@ -46,19 +48,19 @@ The App can be launched from the ecosystem, team files or agent.
 
 1. Click the `Run application` button on the right side of the App page. A modal window will be opened.
   
-<img src="https://user-images.githubusercontent.com/97401023/203985563-e1fca937-5cda-4af2-83a1-435238108d3c.png" />
+   <img width="622" alt="app" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/415e9631-5ecc-4d9d-a46e-7ca7d69ddda1">
 
 2. If you want to upload a project folder from your computer, choose `Drag & Drop` option. You can upload the project folder to the drag-and-drop field or you can click on the drag-and-drop field and choose the project from your computer in the opened window. 
   
-<img src="https://user-images.githubusercontent.com/97401023/203985668-9d5fb085-235b-4e4e-903f-54e110a6dd08.png" width="400px" />
+   <img width="337" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/2202b95a-2c36-4dbf-a7b6-bac306f8611a">
 
 3. If you want to use a project from Team Files, choose the `Team Files` option and choose a folder to use in the app. 
   
-<img src="https://user-images.githubusercontent.com/97401023/203985717-a54a6867-d903-4be0-a160-975e633eb9f8.png" width="400px" />
+   <img width="335" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/26ee2c1d-1894-4aa4-b0e1-ca3900163a31">
 
 4. Fill in the project name in the `Result Project Name` field or leave the default value.
 5. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
-6. Also, you can set `Advanced settings` such as agent, app version and others.
+6. Also, you can set `Advanced settings` such as agent, app version, and others.
 7. Click the `Run` button to start the App.
 </details>
 
@@ -128,19 +130,25 @@ Each Mask file of each Volume can contain only one object.
 
 # Demo
 
-Demo Project [71.7 Mb] [Download](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v0.0.5/Volumes.with.Masks.example.zip)
+Demo Project [72.9 MB] [Download](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v1.0.2/Volume_Project_with_Masks_demo.tar)
 
-The demo project contains 1 dataset `ds0` with 2 volumes.
-The first volume has 1 mask `.nrrd` file with 1 `brain` object.
-The second volume has 2 masks `.nrrd` where each file contains 1 `lung` object.
+The demo project contains 1 dataset `dataset_01` with 2 volumes.
+
+The first volume has 2 masks `.nrrd` files where each contains 1 object - `lung_1` and `lung_2`
+
+The second volume has 1 mask `.nrrd` file with a `brain` object.
+
+
 
 After uploading this project should look like this:
 
-1. Volume with `brain` object
+1. Volume with `lung_1` and `lung_2` objects.
 
-<img src="https://user-images.githubusercontent.com/97401023/204329005-4e42031a-576f-4df8-8c1f-8059d55b13b8.png">
+   <img width="1280" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/0cacc57a-511b-46c5-99bb-1a0473300372">
+
+2. Volume with `brain` object.
+
+   <img width="1280" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/631b3410-ab79-4695-a3f4-7f1779feaf62">
 
 
-2. Volume with two `lung` objects.
 
-<img src="https://user-images.githubusercontent.com/97401023/204329099-3ea5c9cd-62d8-4454-bd23-0309e009c2b1.png">
