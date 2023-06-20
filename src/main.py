@@ -24,7 +24,7 @@ sly.logger.info("Script arguments", extra={"TEAM_ID": team_id, "WORKSPACE_ID": w
 data_dir = sly.app.get_data_dir()
 project_name = os.environ["modal.state.projectName"]
 remove_source = bool(strtobool(os.getenv("modal.state.removeSource")))
-remote_path = os.environ["TEAM_FILES_FOLDER"]
+remote_path = os.environ["FOLDER"]
 is_on_agent = api.file.is_on_agent(remote_path)
 
 try:
