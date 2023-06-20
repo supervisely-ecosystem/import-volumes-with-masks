@@ -1,4 +1,5 @@
 import supervisely as sly
+from supervisely.task.progress import tqdm_sly
 import os
 
 
@@ -14,7 +15,9 @@ def download_folder_from_team_files(
     if sly.fs.dir_exists(project_path):
         return project_path
     sizeb = api.file.get_directory_size(team_id, remote_path)
-    progress = sly.tqdm_sly(desc=f"Downloading {project_folder}", total=sizeb, unit_scale=True)
+    progress = tqdm_sly(
+        desc=f"Downloading {project_folder}", total=sizeb, unit="M", unit_scale=True
+    )
 
     api.file.download_directory(
         team_id=team_id,
