@@ -25,7 +25,7 @@ Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmen
 
 # How to Run
 
-The App can be launched from the ecosystem, team files, or agent.
+The App can be launched from the Ecosystem, Team Files, or Agent.
 
 <details>
 <summary open>Run from team files</summary>
@@ -36,7 +36,7 @@ The App can be launched from the ecosystem, team files, or agent.
    <img width="800" src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/fc5f101e-9732-4958-9bb6-2a305241a290">
 
 
-2. Fill in the project name `Result Project Name` into the field or leave the default value.
+2. Fill in the project name in the `Result Project Name` field or leave the default value.
 3. If you want to leave your folder in Team Files after successful import, uncheck the box `Remove temporary files after successful import` below.
 4. Also, you can set `Advanced settings` such as agent, app version, and others.
 5. Click the `Run` button to start the App.
