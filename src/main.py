@@ -62,10 +62,11 @@ if sly.fs.file_exists(class2idx_path):
 else:
     project_meta = sly.ProjectMeta()
     max_id = 0
+    mask_class = None
 
 api.project.update_meta(project_info.id, project_meta.to_json())
 
-for ds_name in os.listdir(project_path):
+for ds_name in sorted(os.listdir(project_path)):
     ds_dir = os.path.join(project_path, ds_name)
     if sly.fs.dir_exists(ds_dir):
         dataset = api.dataset.create(project_info.id, ds_name)
@@ -75,13 +76,17 @@ for ds_name in os.listdir(project_path):
             raise NotADirectoryError(f"'volume' folder not found in dataset '{ds_name}'")
         if not sly.fs.dir_exists(masks_dir):
             raise NotADirectoryError(f"'mask' folder not found in dataset '{ds_name}'")
-        volumes_names = [file for file in os.listdir(volumes_dir) if sly.volume.has_valid_ext(file)]
+        volumes_names = [
+            file for file in sorted(os.listdir(volumes_dir)) if sly.volume.has_valid_ext(file)
+        ]
         volumes_paths = [os.path.join(volumes_dir, volume) for volume in volumes_names]
+
         volumes_progress = sly.tqdm_sly(
             desc=f"Uploading volumes to {dataset.name} dataset", total=len(volumes_names)
         )
+
         try:
-            item_infos = api.volume.upload_nrrd_series_paths(
+            volume_infos = api.volume.upload_nrrd_series_paths(
                 dataset.id,
                 volumes_names,
                 volumes_paths,
@@ -98,7 +103,9 @@ for ds_name in os.listdir(project_path):
                 },
             )
             raise e
-        volume_names2ids = {item_info.name: item_info.id for item_info in item_infos}
+
+        volume_names2ids = {volume_info.name: volume_info.id for volume_info in volume_infos}
+
         anns_progress = sly.tqdm_sly(
             desc=f"Uploading volume annotations to {dataset.name} dataset",
             total=len(volume_names2ids),
