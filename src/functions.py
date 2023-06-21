@@ -15,12 +15,10 @@ def download_folder_from_team_files(
     if sly.fs.dir_exists(project_path):
         return project_path
     sizeb = api.file.get_directory_size(team_id, remote_path)
-    if sly.is_development():
-        progress = tqdm_sly(
-            desc=f"Downloading {project_folder}", total=sizeb, unit="M", unit_scale=True
-        )
-    else:
-        progress = Progress(message=f"Downloading {project_folder}", total_cnt=sizeb, is_size=True)
+
+    progress = tqdm_sly(
+        desc=f"Downloading {project_folder}", total=sizeb, unit="B", unit_scale=True
+    )
 
     api.file.download_directory(
         team_id=team_id,
