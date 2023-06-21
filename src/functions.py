@@ -17,7 +17,7 @@ def download_folder_from_team_files(
     sizeb = api.file.get_directory_size(team_id, remote_path)
 
     progress = tqdm_sly(
-        desc=f"Downloading {project_folder}", total=sizeb, unit="M", unit_scale=True
+        desc=f"Downloading {project_folder}", total=sizeb, unit="B", unit_scale=True
     )
 
     api.file.download_directory(
