@@ -112,9 +112,9 @@ Project directory example:
 ```
 `class2idx.json` is an optional JSON file containing dictionary `{ "class_name" (str): index (int) }`
 where indexes start from `1` and increment accordingly the number of masks. If the number of classes is less than the number of masks, classes with the names like `class_2` will be created automatically for every mask. 
-If you don't provide this file, class names will be created automatically (`class1`, `class2`, ...).
+If you don't provide this file, class names will be created automatically (`class_1`, `class_2`, ...).
 
-Each Mask file of each Volume can contain only one object.
+Each mask file contains only one object.
 
 Сlasses in JSON must be written in the same order as the masks are sorted by name inside the directory.
 
@@ -132,13 +132,9 @@ Each Mask file of each Volume can contain only one object.
 
 Demo Project [72.9 MB] [Download](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v1.0.2/Volume_Project_with_Masks_demo.tar)
 
-The demo project contains 1 dataset `dataset_01` with 2 volumes.
-
-The first volume has 2 masks `.nrrd` files where each contains 1 object - `lung_1` and `lung_2`
-
-The second volume has 1 mask `.nrrd` file with a `brain` object.
-
-
+The demo project contains 1 dataset `dataset_01` with 2 volumes:
+ - The first volume has 2 masks `.nrrd` files where each contains 1 object - `lung_1` and `lung_2`, respectively.
+ - The second volume has 1 mask `.nrrd` file with a `brain` object.
 
 After uploading this project should look like this:
 
