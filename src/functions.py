@@ -24,6 +24,6 @@ def download_folder_from_team_files(
         team_id=team_id,
         remote_path=remote_path,
         local_save_path=project_path,
-        progress_cb=progress,
+        progress_cb=progress.update,
     )
     return project_path

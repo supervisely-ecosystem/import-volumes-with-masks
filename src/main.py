@@ -91,7 +91,7 @@ for ds_name in sorted(os.listdir(project_path)):
                 dataset.id,
                 volumes_names,
                 volumes_paths,
-                volumes_progress,
+                volumes_progress.update,
             )
         except Exception as e:
             sly.logger.info(
@@ -193,7 +193,7 @@ for ds_name in sorted(os.listdir(project_path)):
                     },
                 )
                 raise e
-            anns_progress(1)
+            anns_progress.update(1)
 
 if remove_source and not is_on_agent:
     api.file.remove(team_id=team_id, path=remote_path)
