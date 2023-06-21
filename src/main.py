@@ -1,4 +1,5 @@
 import os
+import nrrd
 import numpy as np
 import supervisely as sly
 import src.functions as f
@@ -136,9 +137,6 @@ for ds_name in sorted(os.listdir(project_path)):
                     continue
                 mask_path = os.path.join(volume_masks_dir, mask_filename)
 
-                with open(mask_path, "rb") as file:
-                    geometry_bytes = file.read()
-
                 if mask_class:
                     _, current_class = mask_class.popitem(last=False)
                 else:
@@ -151,6 +149,14 @@ for ds_name in sorted(os.listdir(project_path)):
 
                 if mask_object.key() not in ann_objects.keys():
                     ann_objects[mask_object.key()] = mask_object
+
+                # exclude empty figures
+                mask_data, _ = nrrd.read(mask_path)
+                if mask_data.max() == 0:
+                    continue
+
+                with open(mask_path, "rb") as file:
+                    geometry_bytes = file.read()
 
                 zero_figure = sly.VolumeFigure(
                     mask_object, sly.Mask3D(np.zeros((3, 3, 3), dtype=np.bool_)), None, None
