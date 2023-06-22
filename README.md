@@ -122,7 +122,9 @@ If you don't provide this file, class names will be created automatically (`clas
 
 Each mask file contains only one object.
 
-Сlasses in JSON must be written in the same order as the masks are sorted by name inside the directory.
+💡Сlasses in JSON must be written in the same order as the masks are sorted by name inside the directory.
+
+⚠️The class indexes are not tied to the order of the files, they are only used for numbering. You can skip any number. Do not use the same one twice.
 
 `class2idx.json` example:
 ```
