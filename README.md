@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="#Overview">Overview</a> •
-  <a href="#What's-New">What's New</a> •
+  <a href="#Whats-New">What's New</a> •
   <a href="#How-to-Run">How to Run</a> •
   <a href="#Input-Data-Structure">Input Data Structure</a> •
   <a href="#Demo">Demo</a>
