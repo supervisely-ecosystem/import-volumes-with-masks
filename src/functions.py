@@ -1,5 +1,5 @@
 import supervisely as sly
-from supervisely.task.progress import tqdm_sly, Progress
+from supervisely.task.progress import tqdm_sly
 import os
 
 
