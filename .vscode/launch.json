@@ -2,21 +2,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch app",
+            "name": "Python: main.py",
             "type": "python",
             "request": "launch",
-            "module": "uvicorn",
-            "args": [
-                "src.main:app",
-                "--host",
-                "0.0.0.0",
-                "--port",
-                "8000",
-                "--ws",
-                "websockets",
-                "--reload"
-            ],
-            "jinja": true,
+            "program": "src/main.py",
+            "console": "integratedTerminal",
             "justMyCode": false,
             "env": {
                 "PYTHONPATH": "${workspaceFolder}:${PYTHONPATH}",

@@ -14,5 +14,9 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "python.formatting.provider": "black",
+    "black-formatter.args": [
+        "--line-length",
+        "100"
+    ],
     "debug.inlineValues": "off",
   }
