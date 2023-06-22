@@ -6,6 +6,7 @@
 
 <p align="center">
   <a href="#Overview">Overview</a> •
+  <a href="#What's-New">What's New</a> •
   <a href="#How-to-Run">How to Run</a> •
   <a href="#Input-Data-Structure">Input Data Structure</a> •
   <a href="#Demo">Demo</a>
@@ -22,6 +23,11 @@
 # Overview
 
 Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmentation labels.
+
+# What's New
+🔥In version `1.0.2`:
+ + Object masks import as 3D shape figures, providing convenient editing options across all planes. With this feature, you can easily manipulate object masks in various dimensions, making the editing process more intuitive and efficient.
+ + Seamless Compatibility with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project). This means that projects exported with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project) can now be directly loaded into this app without any modifications to the project folder structure. This streamlines your workflow, saving you valuable time and effort when transitioning between the two applications. But be careful with the `class2idx.json`, because this application uses its logic to work with classes, which is described in <a href="#Input-Data-Structure">Input Data Structure</a>
 
 # How to Run
 
