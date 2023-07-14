@@ -1,3 +1,0 @@
-supervisely==6.72.45
-SimpleITK==2.2.1
-python-magic==0.4.27
