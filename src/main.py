@@ -57,14 +57,12 @@ idx2class = {}
 if file_exists(class2idx_path):
     class2idx = sly.json.load_json_file(class2idx_path)
     idx2class = {idx: sly.ObjClass(class_name, sly.Mask3D) for class_name, idx in class2idx.items()}
-    max_id = max(idx2class.keys())
     project_meta = sly.ProjectMeta(list(idx2class.values()))
     class2idx_found = True
     class2idx_changed = False
     mask_classes = OrderedDict(copy(idx2class))
 else:
     project_meta = sly.ProjectMeta()
-    max_id = 0
     mask_classes = None
 
 api.project.update_meta(project_info.id, project_meta)
@@ -141,13 +139,6 @@ for ds_name in dataset_names:
         while "human-readable-objects" in masks_filenames:
             masks_filenames.remove("human-readable-objects")
 
-        if len(masks_filenames) > 1:
-            while "semantic_segmentation.nrrd" in masks_filenames:
-                masks_filenames.remove("semantic_segmentation.nrrd")
-                sly.logger.info(
-                    "⚠️ File 'semantic_segmentation.nrrd' excluded from import list to prevent object duplication."
-                )
-
         for mask_filename in masks_filenames:
             if not sly.volume.has_valid_ext(mask_filename):
                 continue
@@ -155,7 +146,18 @@ for ds_name in dataset_names:
 
             mask_data, _ = nrrd.read(mask_path)
             unique_values = np.unique(mask_data).tolist()
-            max_value = max(unique_values)
+            if len(unique_values) > 2:
+                f.process_semantic_segmentation(
+                    mask_data,
+                    unique_values,
+                    objects,
+                    spatial_figures,
+                    idx2class,
+                    class2idx_changed,
+                )
+                continue
+            else:
+                max_value = max(unique_values)
 
             # exclude empty figures
             if max_value == 0:
@@ -164,9 +166,8 @@ for ds_name in dataset_names:
                 )
                 continue
             elif max_value not in idx2class and max_value != 0:
-                max_id += 1
-                current_class = sly.ObjClass(f"class_{int(max_id)}", sly.Mask3D)
-                idx2class[max_id] = current_class
+                current_class = sly.ObjClass(f"class_{int(max_value)}", sly.Mask3D)
+                idx2class[max_value] = current_class
                 class2idx_changed = True
             else:
                 current_class = idx2class.get(max_value)
