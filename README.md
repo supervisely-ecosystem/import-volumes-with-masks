@@ -1,8 +1,8 @@
 <div align="center" markdown>
 
-<img src="https://user-images.githubusercontent.com/97401023/203817046-018b4b41-e69a-4c1f-8b99-6c7f69a6a7d4.png" style="width: 100%;"/>
+<img src="https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/39ec61e2-41b4-4c1d-b901-1b81c75e4603" style="width: 100%;"/>
 
-# Import Volumes with Masks
+# Import Volumes with 3D Masks
 
 <p align="center">
   <a href="#Overview">Overview</a> •
@@ -25,9 +25,15 @@
 Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmentation labels.
 
 # What's New
-🔥In version `1.0.2`:
- + Object masks import as 3D shape figures, providing convenient editing options across all planes. With this feature, you can easily manipulate object masks in various dimensions, making the editing process more intuitive and efficient.
- + Seamless Compatibility with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project). This means that projects exported with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project) can now be directly loaded into this app without any modifications to the project folder structure. This streamlines your workflow, saving you valuable time and effort when transitioning between the two applications. But be careful with the `class2idx.json`, because this application uses its logic to work with classes, which is described in <a href="#Input-Data-Structure">Input Data Structure</a>
+
+🏷️ Version `1.0.6`
+- To maintain backwards compatibility with [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project) application, any Mask3D annotations that were in the project originally will be skipped during the import process. This enhancement is related to the new format for storing Mask3D objects geometry as `.nrrd` files in the `mask` directory. To learn more read [this article](https://docs.supervisely.com/data-organization/00_ann_format_navi/08_supervisely_format_volume).
+- If you want to import these masks as well, please delete the `ann` folder (if present) from the dataset folder.
+- If you want to import file `semantic_segmentation.nrrd` along the other masks, just rename it to any other name. In case you import only this file, it will be imported without renaming. This mechanism is made specifically to prevent duplication of objects during backwards compatibility.
+
+🔥 Version `1.0.2`
+ - Object masks import as 3D shape figures, providing convenient editing options across all planes. With this feature, you can easily manipulate object masks in various dimensions, making the editing process more intuitive and efficient.
+ - Seamless Compatibility with [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project). This means that projects exported with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project) can now be directly loaded into this app without any modifications to the project folder structure. This streamlines your workflow, saving you valuable time and effort when transitioning between the two applications. But be careful with the `class2idx.json`, because this application uses its logic to work with classes, which is described in <a href="#Input-Data-Structure">Input Data Structure</a>
 
 # How to Run
 
@@ -116,25 +122,47 @@ Project directory example:
 │       └──📂...    
 └──📂...
 ```
-`class2idx.json` is an optional JSON file containing dictionary `{ "class_name" (str): index (int) }`
-where indexes start from `1` and increment accordingly the number of masks. If the number of classes is less than the number of masks, classes with the names like `class_2` will be created automatically for every mask. 
-If you don't provide this file, class names will be created automatically (`class_1`, `class_2`, ...).
-
-Each mask file contains only one object.
-
-💡Сlasses in JSON must be written in the same order as the masks are sorted by name inside the directory.
-
-⚠️The class indexes are not tied to the order of the files, they are only used for numbering. You can skip any number. Do not use the same one twice.
+`class2idx.json` is an optional JSON file containing dictionary `{ "class_name" (str) : index (int) }`
+where indexes are values from `.nrrd` masks. Don't specify `0` as index in masks (reserved value for not labeled fields).
+If you don't provide `class2idx.json`, class names will be created automatically (`class_1`, `class_2`, ...).
 
 `class2idx.json` example:
 ```
 {
-	"dataset_01_volume_1_mask_1": 1,
-	"dataset_01_volume_1_mask_2": 2,
-	"dataset_01_volume_2_mask_1": 3,
-	"dataset_02_volume_1_mask_1": 4
+    "brain": 1,
+    "lung": 2
 }
 ```
+
+<div>
+   <details>
+      <summary>ℹ️ Click here to see <code>class2idx.json</code> structure in the app versions <code>1.0.2 - 1.0.6</code></summary>
+      <br/>
+   <p>
+      <code>class2idx.json</code> is an optional JSON file containing dictionary <code>{ "class_name" (str): index (int) }</code>
+      where indexes start from <code>1</code> and increment accordingly the number of masks. If the number of classes is less than the number of masks, classes with the names like <code>class_2</code> will be created automatically for every mask. 
+      If you don't provide this file, class names will be created automatically (<code>class_1</code>, <code>class_2</code>, ...).
+      <br/><br/>
+      💡Сlasses in JSON must be written in the same order as the masks are sorted by name inside the directory.
+      <br/><br/>
+      ⚠️The class indexes are not tied to the order of the files, they are only used for numbering. You can skip any number. Do not use the same one twice.
+      <br/><br/>
+      <code>class2idx.json</code> example:
+      <br/><br/>
+      <code>
+         {<br/>
+            "dataset_01_volume_1_mask_1": 1,<br/>
+            "dataset_01_volume_1_mask_2": 2,<br/>
+            "dataset_01_volume_2_mask_1": 3,<br/>
+            "dataset_02_volume_1_mask_1": 4<br/>
+         }
+      </code>
+      <br/><br/>
+       Demo Project [72.9 MB] <a href=https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v1.0.2/Volume_Project_with_Masks_demo.tar>Download</a>
+   </p>
+   </details>
+</div>
+<br>  
 
 # Demo
 

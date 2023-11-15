@@ -145,7 +145,7 @@ for ds_name in dataset_names:
             while "semantic_segmentation.nrrd" in masks_filenames:
                 masks_filenames.remove("semantic_segmentation.nrrd")
                 sly.logger.info(
-                    "File 'semantic_segmentation.nrrd' excluded from import list to prevent object duplication."
+                    "⚠️ File 'semantic_segmentation.nrrd' excluded from import list to prevent object duplication."
                 )
 
         for mask_filename in masks_filenames:
