@@ -1,5 +1,6 @@
 import supervisely as sly
-from supervisely.task.progress import tqdm_sly
+from tqdm import tqdm
+from supervisely.io.json import load_json_file
 import os
 
 
@@ -16,9 +17,7 @@ def download_folder_from_team_files(
         return project_path
     sizeb = api.file.get_directory_size(team_id, remote_path)
 
-    progress = tqdm_sly(
-        desc=f"Downloading {project_folder}", total=sizeb, unit="M", unit_scale=True
-    )
+    progress = tqdm(desc=f"Downloading {project_folder}", total=sizeb, unit="M", unit_scale=True)
 
     api.file.download_directory(
         team_id=team_id,
@@ -27,3 +26,14 @@ def download_folder_from_team_files(
         progress_cb=progress.update,
     )
     return project_path
+
+
+def get_masks_to_exclude(ann_json_path: str) -> list:
+    masks_to_exclude = []
+    ann_json = load_json_file(ann_json_path)
+    spatial_figures = ann_json.get("spatialFigures", [])
+    for figure in spatial_figures:
+        mask_name = figure.get("key", None) + ".nrrd"
+        if mask_name is not None:
+            masks_to_exclude.append(mask_name)
+    return masks_to_exclude
