@@ -148,15 +148,13 @@ If you don't provide `class2idx.json`, class names will be created automatically
       ⚠️The class indexes are not tied to the order of the files, they are only used for numbering. You can skip any number. Do not use the same one twice.
       <br/><br/>
       <code>class2idx.json</code> example:
-      <br/><br/>
-      <script type="application/json" id="jsonData">
-         {
-            "dataset_01_volume_1_mask_1": 1,
-            "dataset_01_volume_1_mask_2": 2,
-            "dataset_01_volume_2_mask_1": 3,
-            "dataset_02_volume_1_mask_1": 4
-         }
-      </script>
+      <br/><br/>      
+      {<ul>
+         "dataset_01_volume_1_mask_1": 1,<br/>  
+         "dataset_01_volume_1_mask_2": 2,<br/>  
+         "dataset_01_volume_2_mask_1": 3,<br/>  
+         "dataset_02_volume_1_mask_1": 4
+      </ul>}            
       <br/><br/>
        Demo Project [72.9 MB] <a href=https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v1.0.2/Volume_Project_with_Masks_demo.tar>Download</a>
    </p>
