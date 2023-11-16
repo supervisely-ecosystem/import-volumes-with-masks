@@ -28,8 +28,7 @@ Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmen
 
 🏷️ Version `1.0.6`
 - To maintain backwards compatibility with [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project) application, any Mask3D annotations that were in the project originally will be skipped during the import process. This enhancement is related to the new format for storing Mask3D objects geometry as `.nrrd` files in the `mask` directory. To learn more read [this article](https://docs.supervisely.com/data-organization/00_ann_format_navi/08_supervisely_format_volume).
-- If you want to import these masks as well, please delete the `ann` folder (if present) from the dataset folder.
-- If you want to import file `semantic_segmentation.nrrd` along the other masks, just rename it to any other name. In case you import only this file, it will be imported without renaming. This mechanism is made specifically to prevent duplication of objects during backwards compatibility.
+- If you want to import these originally created and exported using [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project) along with semantic segmentation, please delete the `ann` folder (if present) from the dataset folder of exported project.
 
 🔥 Version `1.0.2`
  - Object masks import as 3D shape figures, providing convenient editing options across all planes. With this feature, you can easily manipulate object masks in various dimensions, making the editing process more intuitive and efficient.
@@ -83,8 +82,8 @@ The App can be launched from the Ecosystem, Team Files, or Agent.
 The application supports import from a special directory on your local computer. It is made for Enterprise Edition customers who need to upload tens or even hundreds of gigabytes of data without using the drag-and-drop mechanism:
 
 1. Run an agent on your computer where data is stored. Watch the [how-to video](https://youtu.be/aO7Zc4kTrVg).
-2. Copy your data to the special folder on your computer that was created by the agent. Agent mounts this directory to your Supervisely instance and it becomes accessible in Team Files. Learn more in the [documentation](https://github.com/supervisely/docs/blob/master/customization/agents/agent-storage/agent-storage.md). Watch the [how-to video](https://youtu.be/63Kc8Xq9H0U).
-3. Go to `Team Files` -> `Supervisely Agent` and find your folder there.
+2. Copy your data to the special folder on your computer that was created by the agent. Agent mounts this directory to your Supervisely instance, and it becomes accessible in Team Files. Learn more in the [documentation](https://github.com/supervisely/docs/blob/master/customization/agents/agent-storage/agent-storage.md). Watch the [how-to video](https://youtu.be/63Kc8Xq9H0U).
+3. Go to `Team Files` → `Supervisely Agent` and find your folder there.
 4. Right-click to open the context menu and start the App. Now the App will upload data directly from your computer to the platform.
 </details>
 
@@ -126,6 +125,10 @@ Project directory example:
 where indexes are values from `.nrrd` masks. Don't specify `0` as index in masks (reserved value for not labeled fields).
 If you don't provide `class2idx.json`, class names will be created automatically (`class_1`, `class_2`, ...).
 
+💡 **Important information** 
+ - If the mask in `.nrrd` has more than one value greater than `0` - it will be identified as a semantic segmentation
+ - If the mask in `.nrrd` has only one value greater than `0` - it will be identified as a single object mask
+
 `class2idx.json` example:
 ```
 {
@@ -134,9 +137,10 @@ If you don't provide `class2idx.json`, class names will be created automatically
 }
 ```
 
+
 <div>
    <details>
-      <summary>ℹ️ Click here to see <code>class2idx.json</code> structure in the app versions <code>1.0.2 - 1.0.6</code></summary>
+      <summary>ℹ️ Click here to see <code>class2idx.json</code> structure in the app versions <code>1.0.2 - 1.0.5</code></summary>
       <br/>
    <p>
       <code>class2idx.json</code> is an optional JSON file containing dictionary <code>{ "class_name" (str): index (int) }</code>
@@ -164,13 +168,16 @@ If you don't provide `class2idx.json`, class names will be created automatically
 
 # Demo
 
-Demo Project [72.9 MB] [Download](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v1.0.2/Volume_Project_with_Masks_demo.tar)
+Demo Project [72.4 MB] [Download](https://github.com/supervisely-ecosystem/import-volumes-with-masks/releases/download/v1.0.6/Volume_Project_with_3D_Masks_demo.tar)
 
 The demo project contains 1 dataset `dataset_01` with 2 volumes:
- - The first volume has 2 masks `.nrrd` files where each contains 1 object - `lung_1` and `lung_2`, respectively.
- - The second volume has 1 mask `.nrrd` file with a `brain` object.
+ - `CTACardio` volume has 2 masks `.nrrd` files where each contains 1 object - `lung_1` and `lung_2`, respectively
+ - `MRHead` volume has 1 mask `.nrrd` file with a `brain` object
+ - Every volume has a `semantic_segmentation` file with all its masks
+ - Every mask folder contains a `human-readable-objects` folder which is not included in the import process, this folder simply stores duplicates of single masks with human-readable names. This folder is created when you export the project through the [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project)
 
-After uploading this project should look like this:
+
+If you upload either only `semantic_segmentation` or only single masks, after uploading the project should look like this:
 
 1. Volume with `lung_1` and `lung_2` objects.
 
