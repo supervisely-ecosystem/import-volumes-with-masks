@@ -1,27 +1,21 @@
 {
-    "name": "Import Volumes with Masks",
-    "version": "2.0.0",
-    "headless": true,
-    "description": "Import Volumes with .nrrd masks to Supervisely",
-    "categories": [
-        "import",
-        "volumes"
-    ],
-    "main_script": "src/main.py",
-    "docker_image": "supervisely/import-export:0.0.5",
-    "instance_version": "6.8.0",
-    "modal_template": "src/modal.html",
-    "modal_template_state": {
-        "removeSource": true,
-        "projectName": "Imported Volumes with Masks"
-    },
-    "icon": "https://user-images.githubusercontent.com/97401023/203816888-c5b4d710-7729-40bf-9043-322941b5a214.png",
-    "poster": "https://user-images.githubusercontent.com/97401023/203817046-018b4b41-e69a-4c1f-8b99-6c7f69a6a7d4.png",
-    "context_menu": {
-        "context_category": "Import",
-        "target": [
-            "files_folder",
-            "agent_folder"
-        ]
-    }
+  "name": "Import Volumes with 3D Masks",
+  "version": "2.0.0",
+  "headless": true,
+  "description": "Import Volumes with .nrrd 3D Masks to Supervisely",
+  "categories": ["import", "volumes"],
+  "main_script": "src/main.py",
+  "docker_image": "supervisely/import-export:6.72.169",
+  "instance_version": "6.8.0",
+  "modal_template": "src/modal.html",
+  "modal_template_state": {
+    "removeSource": true,
+    "projectName": "Imported Volumes with 3D Masks"
+  },
+  "icon": "https://user-images.githubusercontent.com/97401023/203816888-c5b4d710-7729-40bf-9043-322941b5a214.png",
+  "poster": "https://github.com/supervisely-ecosystem/import-volumes-with-masks/assets/57998637/39ec61e2-41b4-4c1d-b901-1b81c75e4603",
+  "context_menu": {
+    "context_category": "Import",
+    "target": ["files_folder", "agent_folder"]
+  }
 }
