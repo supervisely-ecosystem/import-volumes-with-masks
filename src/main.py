@@ -53,13 +53,13 @@ class2idx_path = os.path.join(project_path, "class2idx.json")
 
 project_info = api.project.create(workspace_id, project_name, sly.ProjectType.VOLUMES)
 class2idx_found = False
+class2idx_changed = False
 idx2class = {}
 if file_exists(class2idx_path):
     class2idx = sly.json.load_json_file(class2idx_path)
     idx2class = {idx: sly.ObjClass(class_name, sly.Mask3D) for class_name, idx in class2idx.items()}
     project_meta = sly.ProjectMeta(list(idx2class.values()))
     class2idx_found = True
-    class2idx_changed = False
     mask_classes = OrderedDict(copy(idx2class))
 else:
     project_meta = sly.ProjectMeta()
