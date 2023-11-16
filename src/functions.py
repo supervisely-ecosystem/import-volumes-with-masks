@@ -46,7 +46,7 @@ def process_semantic_segmentation(
     objects: list,
     spatial_figures: list,
     idx2class: dict,
-    class2idx_changed: bool,
+    idx2class_changed: bool,
 ):
     unique_values.remove(0)
     for class_idx in unique_values:
@@ -55,7 +55,7 @@ def process_semantic_segmentation(
         if class_idx not in idx2class and class_idx != 0:
             current_class = sly.ObjClass(f"class_{int(class_idx)}", sly.Mask3D)
             idx2class[class_idx] = current_class
-            class2idx_changed = True
+            idx2class_changed = True
         else:
             current_class = idx2class.get(class_idx)
 
@@ -66,3 +66,4 @@ def process_semantic_segmentation(
 
         objects.append(mask_object)
         spatial_figures.append(mask_object.figure)
+    return idx2class_changed

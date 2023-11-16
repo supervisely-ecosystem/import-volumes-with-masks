@@ -53,19 +53,14 @@ class2idx_path = os.path.join(project_path, "class2idx.json")
 
 project_info = api.project.create(workspace_id, project_name, sly.ProjectType.VOLUMES)
 class2idx_found = False
-class2idx_changed = False
+idx2class_changed = False
 idx2class = {}
 if file_exists(class2idx_path):
     class2idx = sly.json.load_json_file(class2idx_path)
     idx2class = {idx: sly.ObjClass(class_name, sly.Mask3D) for class_name, idx in class2idx.items()}
     project_meta = sly.ProjectMeta(list(idx2class.values()))
     class2idx_found = True
-    mask_classes = OrderedDict(copy(idx2class))
-else:
-    project_meta = sly.ProjectMeta()
-    mask_classes = None
-
-api.project.update_meta(project_info.id, project_meta)
+    api.project.update_meta(project_info.id, project_meta)
 
 dataset_names = [d for d in os.listdir(project_path) if dir_exists(os.path.join(project_path, d))]
 
@@ -147,13 +142,13 @@ for ds_name in dataset_names:
             mask_data, _ = nrrd.read(mask_path)
             unique_values = np.unique(mask_data).tolist()
             if len(unique_values) > 2:
-                f.process_semantic_segmentation(
+                idx2class_changed = f.process_semantic_segmentation(
                     mask_data,
                     unique_values,
                     objects,
                     spatial_figures,
                     idx2class,
-                    class2idx_changed,
+                    idx2class_changed,
                 )
                 continue
             else:
@@ -168,7 +163,7 @@ for ds_name in dataset_names:
             elif max_value not in idx2class and max_value != 0:
                 current_class = sly.ObjClass(f"class_{int(max_value)}", sly.Mask3D)
                 idx2class[max_value] = current_class
-                class2idx_changed = True
+                idx2class_changed = True
             else:
                 current_class = idx2class.get(max_value)
 
@@ -186,9 +181,12 @@ for ds_name in dataset_names:
             spatial_figures=spatial_figures,
         )
 
-        if not class2idx_found or class2idx_changed:
+        if class2idx_found is False or idx2class_changed:
+            cur_proj_meta = api.project.get_meta(project_info.id)
+            cur_proj_meta = sly.ProjectMeta.from_json(cur_proj_meta)
             project_meta = sly.ProjectMeta(list(idx2class.values()))
-            api.project.update_meta(project_info.id, project_meta.to_json())
+            merged_meta = cur_proj_meta.merge(project_meta)
+            api.project.update_meta(project_info.id, merged_meta)
 
         key_id_map = sly.KeyIdMap()
 
