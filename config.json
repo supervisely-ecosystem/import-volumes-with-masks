@@ -5,7 +5,7 @@
   "description": "Import Volumes with .nrrd 3D Masks to Supervisely",
   "categories": ["import", "volumes"],
   "main_script": "src/main.py",
-  "docker_image": "supervisely/import-export:6.72.169",
+  "docker_image": "supervisely/import-export:6.72.195",
   "instance_version": "6.8.0",
   "modal_template": "src/modal.html",
   "modal_template_state": {
