@@ -39,6 +39,17 @@ def get_masks_to_exclude(ann_json_path: str) -> list:
             masks_to_exclude.append(mask_name)
     return masks_to_exclude
 
+def sitk_meta_to_header(sitk_meta: dict) -> dict:
+    sitk_origin = np.array(sitk_meta.get("origin", None))
+    sitk_spacing = np.array(sitk_meta.get("spacing", None))
+    sitk_directions = np.array(sitk_meta.get("directions", None))
+    directions = (sitk_directions.T * sitk_spacing[:, None]).tolist()
+    return {
+        "space": "right-anterior-superior",
+        "space origin": sitk_origin,
+        "space directions": directions,
+    }
+
 
 def process_semantic_segmentation(
     mask_data: np.ndarray,
@@ -47,6 +58,7 @@ def process_semantic_segmentation(
     spatial_figures: list,
     idx2class: dict,
     idx2class_changed: bool,
+    volume_header: dict = None,
 ):
     unique_values.remove(0)
     for class_idx in unique_values:
@@ -61,7 +73,7 @@ def process_semantic_segmentation(
 
         # convert grayscale values to binary type
         new_mask = (new_mask != 0).astype(bool)
-        mask_3d_geometry = sly.Mask3D(new_mask)
+        mask_3d_geometry = sly.Mask3D(new_mask, volume_header=volume_header)
         mask_object = sly.VolumeObject(current_class, mask_3d=mask_3d_geometry)
 
         objects.append(mask_object)

@@ -139,7 +139,7 @@ for ds_name in dataset_names:
                 continue
             mask_path = os.path.join(volume_masks_dir, mask_filename)
 
-            mask_data, _ = nrrd.read(mask_path)
+            mask_data, _ = sly.volume.read_nrrd_serie_volume_np(mask_path)
             unique_values = np.unique(mask_data).tolist()
             if len(unique_values) > 2:
                 idx2class_changed = f.process_semantic_segmentation(
@@ -149,6 +149,7 @@ for ds_name in dataset_names:
                     spatial_figures,
                     idx2class,
                     idx2class_changed,
+                    f.sitk_meta_to_header(volume_meta),
                 )
                 continue
             else:
@@ -169,7 +170,7 @@ for ds_name in dataset_names:
 
             # convert grayscale values to binary type
             mask_data = (mask_data != 0).astype(bool)
-            mask_3d_geometry = sly.Mask3D(mask_data)
+            mask_3d_geometry = sly.Mask3D(mask_data, f.sitk_meta_to_header(volume_meta))
             mask_object = sly.VolumeObject(current_class, mask_3d=mask_3d_geometry)
 
             objects.append(mask_object)
