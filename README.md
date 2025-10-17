@@ -12,7 +12,7 @@
   <a href="#Demo">Demo</a>
 </p>
 
-[![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](../../../../supervisely-ecosystem/import-volumes-with-masks)
+[![](https://img.shields.io/badge/supervisely-ecosystem-brightgreen)](https://ecosystem.supervisely.com/apps/supervisely-ecosystem/import-volumes-with-masks)
 [![](https://img.shields.io/badge/slack-chat-green.svg?logo=slack)](https://supervisely.com/slack)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/supervisely-ecosystem/import-volumes-with-masks)
 [![views](https://app.supervisely.com/img/badges/views/supervisely-ecosystem/import-volumes-with-masks.png)](https://supervisely.com)
@@ -27,12 +27,12 @@ Import volumes in `NRRD` format with masks in `NRRD` format with semantic segmen
 # What's New
 
 🏷️ Version `1.0.6`
-- To maintain backwards compatibility with [Export Volumes with 3D Annotations](../../../../supervisely-ecosystem/export-volume-project) application, any Mask3D annotations that were in the project originally will be skipped during the import process. This enhancement is related to the new format for storing Mask3D objects geometry as `.nrrd` files in the `mask` directory. To learn more read [this article](https://docs.supervisely.com/data-organization/00_ann_format_navi/08_supervisely_format_volume).
-- If you want to import these originally created and exported using [Export Volumes with 3D Annotations](../../../../supervisely-ecosystem/export-volume-project) along with semantic segmentation, please delete the `ann` folder (if present) from the dataset folder of exported project.
+- To maintain backwards compatibility with [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project) application, any Mask3D annotations that were in the project originally will be skipped during the import process. This enhancement is related to the new format for storing Mask3D objects geometry as `.nrrd` files in the `mask` directory. To learn more read [this article](https://docs.supervisely.com/data-organization/00_ann_format_navi/08_supervisely_format_volume).
+- If you want to import these originally created and exported using [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project) along with semantic segmentation, please delete the `ann` folder (if present) from the dataset folder of exported project.
 
 🔥 Version `1.0.2`
  - Object masks import as 3D shape figures, providing convenient editing options across all planes. With this feature, you can easily manipulate object masks in various dimensions, making the editing process more intuitive and efficient.
- - Seamless Compatibility with [Export Volumes with 3D Annotations](../../../../supervisely-ecosystem/export-volume-project). This means that projects exported with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project) can now be directly loaded into this app without any modifications to the project folder structure. This streamlines your workflow, saving you valuable time and effort when transitioning between the two applications. But be careful with the `class2idx.json`, because this application uses its logic to work with classes, which is described in <a href="#Input-Data-Structure">Input Data Structure</a>
+ - Seamless Compatibility with [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project). This means that projects exported with [Export App](https://app.supervisely.com/ecosystem/apps/export-volume-project) can now be directly loaded into this app without any modifications to the project folder structure. This streamlines your workflow, saving you valuable time and effort when transitioning between the two applications. But be careful with the `class2idx.json`, because this application uses its logic to work with classes, which is described in <a href="#Input-Data-Structure">Input Data Structure</a>
 
 # How to Run
 
@@ -174,7 +174,7 @@ The demo project contains 1 dataset `dataset_01` with 2 volumes:
  - `CTACardio` volume has 2 masks `.nrrd` files where each contains 1 object - `lung_1` and `lung_2`, respectively
  - `MRHead` volume has 1 mask `.nrrd` file with a `brain` object
  - Every volume has a `semantic_segmentation` file with all its masks
- - Every mask folder contains a `human-readable-objects` folder which is not included in the import process, this folder simply stores duplicates of single masks with human-readable names. This folder is created when you export the project through the [Export Volumes with 3D Annotations](../../../../supervisely-ecosystem/export-volume-project)
+ - Every mask folder contains a `human-readable-objects` folder which is not included in the import process, this folder simply stores duplicates of single masks with human-readable names. This folder is created when you export the project through the [Export Volumes with 3D Annotations](https://ecosystem.supervisely.com/ecosystem/apps/export-volume-project)
 
 
 If you upload either only `semantic_segmentation` or only single masks, after uploading the project should look like this:
